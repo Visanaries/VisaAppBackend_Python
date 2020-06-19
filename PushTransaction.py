@@ -2,6 +2,9 @@ import requests
 import json
 import datetime
 
+print(datetime.datetime.now())
+date = datetime.datetime.now().strftime("%Y-%m-%dT%H:%M:%S")
+
 url = "https://sandbox.api.visa.com/visadirect/fundstransfer/v1/pushfundstransactions"
 certificate = "cert.pem"
 privateKey = "privateKey.pem"
@@ -26,7 +29,7 @@ payload = json.loads('''
 "name": "Visa Inc. USA-Foster City",
 "terminalId": "TID-9999"
 },
-"localTransactionDateTime": "2020-06-19T16:41:43",
+"localTransactionDateTime": "''' + date + '''",
 "merchantCategoryCode": "6012",
 "pointOfServiceData": {
 "motoECIIndicator": "0",
