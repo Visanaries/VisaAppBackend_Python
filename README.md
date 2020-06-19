@@ -5,3 +5,13 @@ Aggregated API backend integrating Visa APIs and custom written APIs into a sing
 1) Visa Direct
 2) Visa Queue Insights
 3) Payment Account Validation
+
+## Getting Started
+Use pip to install all of the required dependencies.
+```
+pip install -r requirements.txt
+```
+
+## Necessary Tools
+1) Requests
+2) Flask
