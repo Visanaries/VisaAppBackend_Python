@@ -1,4 +1,8 @@
+import requests
 from flask import Flask, jsonify, request
+import json
+import datetime
+from QueueInsightsService import getVisaWaitTimes
 
 app = Flask(__name__)
 
@@ -13,6 +17,11 @@ def index():
 @app.route("/multiply/<int:num1>/<int:num2>", methods = ["GET"])
 def multiply(num1, num2):
     return jsonify({"Product": num1 * num2})
+
+@app.route("/waitTimes", methods = ["GET"])
+def getWaitTimes():
+    data = getVisaWaitTimes()
+    return data
 
 if (__name__ == "__main__"):
     app.run(debug = True)
