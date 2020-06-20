@@ -3,7 +3,7 @@ import json
 import datetime
 
 def getVisaWaitTimes():
-    date = datetime.datetime.now().strftime("%Y-%m-%dT%H:%M:%S")
+    date = datetime.datetime.now().strftime("%Y-%m-%dT%H:%M:%S") + ".000"
 
     url = "https://sandbox.api.visa.com/visaqueueinsights/v1/queueinsights"
     certificate = "cert.pem"
@@ -15,7 +15,7 @@ def getVisaWaitTimes():
     payload = json.loads('''
     {
     "requestHeader": {
-    "messageDateTime": "2020-06-20T19:45:22.327",
+    "messageDateTime": "''' + date + '''",
     "requestMessageId": "6da60e1b8b024532a2e0eacb1af58581"
     },
     "requestData": {
