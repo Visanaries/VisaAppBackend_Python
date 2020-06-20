@@ -11,6 +11,7 @@ body = {}
 payload = json.loads('''{}''')
 timeout = 10
 
+# How to get response from HelloWorld API from Visa
 r = requests.get(url, 
                 cert = (certificate, privateKey),
                 headers = headers,
@@ -19,5 +20,14 @@ r = requests.get(url,
                 json = payload,
                 timeout = timeout)
 
+# Print text of response from Visa API
 print(r.text)
 
+# Example - How to get response from Pokemon API
+response = requests.get("https://pokeapi.co/api/v2/pokemon/pikachu")
+# How to turn response into JSON
+data = response.json()
+# Print specific value from a specified key from JSON in data
+print(data["name"])
+# Print entire JSON
+print(data)
