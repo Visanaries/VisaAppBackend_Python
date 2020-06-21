@@ -5,6 +5,7 @@ import datetime
 from QueueInsightsService import getVisaWaitTimes
 from GeneralAttributesInquiry import getGeneralVisaCardDetails
 from FundsTransferInquiry import getFundsTransferVisaCardDetails
+from CardValidation import getVisaCardValidation
 
 app = Flask(__name__)
 
@@ -34,10 +35,17 @@ def getGeneralCardDetails():
     return data
 
 # Find card details pertaining to funds transfers (must provide Account Number, reference number, system trace audit number)
-# ToDo: Send specific card numbers for each person
+# ToDo: Send specific info for each person
 @app.route("/fundsTransferCardDetails", methods = ["GET"])
 def getFundsTransferCardDetails():
     data = getFundsTransferVisaCardDetails()
+    return data
+
+# Find out if a card is valid before payments/transactions
+# ToDo: Populate information in body before HTTP request is sent 
+@app.route("/cardValidation", methods = ["GET"])
+def getCardValidation():
+    data = getVisaCardValidation()
     return data
 
 if (__name__ == "__main__"):
