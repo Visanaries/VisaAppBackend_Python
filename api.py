@@ -6,6 +6,7 @@ from QueueInsightsService import getVisaWaitTimes
 from GeneralAttributesInquiry import getGeneralVisaCardDetails
 from FundsTransferInquiry import getFundsTransferVisaCardDetails
 from CardValidation import getVisaCardValidation
+from MerchantPushPayments import getPayMerchant
 
 app = Flask(__name__)
 
@@ -46,6 +47,11 @@ def getFundsTransferCardDetails():
 @app.route("/cardValidation", methods = ["GET"])
 def getCardValidation():
     data = getVisaCardValidation()
+    return data
+
+@app.route("/payMerchant", methods = ["GET", "POST"])
+def payMerchant():
+    data = getPayMerchant()
     return data
 
 if (__name__ == "__main__"):
