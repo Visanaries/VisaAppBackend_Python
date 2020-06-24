@@ -1,7 +1,10 @@
 import requests
 import json
+import datetime
 
 def getPayMerchant():
+
+    date = datetime.datetime.now().strftime("%Y-%m-%dT%H:%M:%S")
 
     url = "https://sandbox.api.visa.com/visadirect/mvisa/v1/merchantpushpayments"
     certificate = "cert.pem"
@@ -24,7 +27,7 @@ def getPayMerchant():
     "idCode": "CA-IDCode-77765",
     "name": "Visa Inc. USA-Foster City"
     },
-    "localTransactionDateTime": "2020-06-24T07:01:55",
+    "localTransactionDateTime": "''' + date + '''",
     "purchaseIdentifier": {
     "type": "0",
     "referenceNumber": "REF_123456789123456789123"

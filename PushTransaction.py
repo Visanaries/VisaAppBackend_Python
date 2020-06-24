@@ -2,7 +2,6 @@ import requests
 import json
 import datetime
 
-print(datetime.datetime.now())
 date = datetime.datetime.now().strftime("%Y-%m-%dT%H:%M:%S")
 
 url = "https://sandbox.api.visa.com/visadirect/fundstransfer/v1/pushfundstransactions"
