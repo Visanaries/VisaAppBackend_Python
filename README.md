@@ -16,4 +16,7 @@ pip install -r requirements.txt
 ## Necessary Tools
 1) Requests
 2) Flask
+3) Pymongo
+4) MongoDB
+5) dnspython
 

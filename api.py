@@ -30,10 +30,13 @@ def getWaitTimes():
 
 # Find general card details (must provide Account Number)
 # ToDo: Send specific card numbers for each person
-@app.route("/generalCardDetails", methods = ["GET"])
-def getGeneralCardDetails():
-    data = getGeneralVisaCardDetails()
-    return data
+@app.route("/generalCardDetails/<string:firstName>/<string:lastName>", methods = ["GET"])
+def getGeneralCardDetails(firstName, lastName):
+    data = getGeneralVisaCardDetails(firstName, lastName)
+    if (data == None):
+        return jsonify({"Error": "No such object exists in the database"}), 404
+    else:
+        return data
 
 # Find card details pertaining to funds transfers (must provide Account Number, reference number, system trace audit number)
 # ToDo: Send specific info for each person
