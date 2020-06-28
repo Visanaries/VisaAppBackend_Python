@@ -21,4 +21,15 @@ def createUser(firstName, lastName, username, password, email):
 
 # Verify sign in credentials
 def verifyCredentials(username, password):
+
+    client = pymongo.MongoClient("mongodb+srv://AdiLaptop:asdAhagYHNUOzVmk@visanariesdb-942zb.mongodb.net/VisanariesDB?retryWrites=true&w=majority")
+    db = client.main
+    users = db.user
+
+    specificUser = users.find_one({"Username": username, "Password": password})
+
+    # If credentials do not match - return false
+    if (not specificUser):
+        return False
+
     return True
