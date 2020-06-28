@@ -24,8 +24,6 @@ def getPayMerchant(amount, firstName, lastName, merchant):
     if (not specificMerchant):
         return ("NO MERCHANT")
 
-    #coll.update_one({"_id":"102"},{"$set":{"city":"Visakhapatnam"}})
-
     # Handle Insufficient Funds
     if (int(amount) > specificUser["funds"]):
         return ("INSUFFICIENT FUNDS")

@@ -7,6 +7,8 @@ from GeneralAttributesInquiry import getGeneralVisaCardDetails
 from FundsTransferInquiry import getFundsTransferVisaCardDetails
 from CardValidation import getVisaCardValidation
 from MerchantPushPayments import getPayMerchant
+from databaseFunctions import createUser
+from databaseFunctions import verifyCredentials
 
 app = Flask(__name__)
 
@@ -21,6 +23,22 @@ def index():
 @app.route("/multiply/<int:num1>/<int:num2>", methods = ["GET"])
 def multiply(num1, num2):
     return jsonify({"Product": num1 * num2})
+
+# Creates a new user account
+@app.route("/newUserAccount/<string:firstName>/<string:lastName>/<string:username>/<string:password>/<string:email>", methods = ["GET", "POST"])
+def postNewUserAccount(firstName, lastName, username, password, email):
+    if (createUser(firstName, lastName, username, password, email)):
+        return jsonify({"Message": "Successful. Able to create new user account.", "Status": True}), 201
+    else:
+        return jsonify({"Message": "Unsuccessful. unable to create new user account.", "Status": False}), 404
+
+# Checks 
+@app.route("/verifyCredentials/<string:username>/<string:password>", methods = ["GET"])
+def getVerifyCredentials(username, password):
+    if (verifyCredentials(username, password)):
+        return jsonify({"Status": True}), 200
+    else:
+        return jsonify({"Status": False}), 200
 
 # Find merchants and their wait times
 @app.route("/merchantWaitTimes", methods = ["GET"])
@@ -39,7 +57,6 @@ def getGeneralCardDetails(firstName, lastName):
         return data
 
 # Find card details pertaining to funds transfers (must provide Account Number, reference number, system trace audit number)
-# ToDo: Send specific info for each person
 @app.route("/fundsTransferCardDetails/<string:firstName>/<string:lastName>", methods = ["GET"])
 def getFundsTransferCardDetails(firstName, lastName):
     data = getFundsTransferVisaCardDetails(firstName, lastName)
@@ -49,7 +66,6 @@ def getFundsTransferCardDetails(firstName, lastName):
         return data
 
 # Find out if a card is valid before payments/transactions
-# ToDo: Populate information in body before HTTP request is sent 
 @app.route("/cardValidation/<string:firstName>/<string:lastName>", methods = ["GET"])
 def getCardValidation(firstName, lastName):
     data = getVisaCardValidation(firstName, lastName)
@@ -58,6 +74,7 @@ def getCardValidation(firstName, lastName):
     else:
         return data
 
+# Pay merchant
 @app.route("/payMerchant/<string:amount>/<string:firstName>/<string:lastName>/<string:merchant>", methods = ["GET", "POST"])
 def payMerchant(amount, firstName, lastName, merchant):
     data = getPayMerchant(amount, firstName, lastName, merchant)
