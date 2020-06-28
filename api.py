@@ -50,10 +50,13 @@ def getFundsTransferCardDetails(firstName, lastName):
 
 # Find out if a card is valid before payments/transactions
 # ToDo: Populate information in body before HTTP request is sent 
-@app.route("/cardValidation", methods = ["GET"])
-def getCardValidation():
-    data = getVisaCardValidation()
-    return data
+@app.route("/cardValidation/<string:firstName>/<string:lastName>", methods = ["GET"])
+def getCardValidation(firstName, lastName):
+    data = getVisaCardValidation(firstName, lastName)
+    if (data == None):
+        return jsonify({"Error": "No such object exists in the database"}), 404
+    else:
+        return data
 
 @app.route("/payMerchant", methods = ["GET", "POST"])
 def payMerchant():

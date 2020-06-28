@@ -1,7 +1,16 @@
 import requests
 import json
+import pymongo
+from pymongo import MongoClient
+import dns
 
-def getVisaCardValidation():
+def getVisaCardValidation(firstName, lastName):
+
+    client = pymongo.MongoClient("mongodb+srv://AdiLaptop:asdAhagYHNUOzVmk@visanariesdb-942zb.mongodb.net/VisanariesDB?retryWrites=true&w=majority")
+    db = client.main
+    users = db.user
+
+    specificUser = users.find_one({"name": {"first": firstName, "last": lastName}})
 
     url = "https://sandbox.api.visa.com/pav/v1/cardvalidation"
     certificate = "cert.pem"
@@ -25,12 +34,12 @@ def getVisaCardValidation():
     "zipCode": "94404"
     },
     "idCode": "111111",
-    "name": "Rohan",
+    "name": "''' + specificUser["name"]["first"] + specificUser["name"]["last"] + '''",
     "terminalId": "123"
     },
-    "cardCvv2Value": "672",
-    "cardExpiryDate": "2020-07",
-    "primaryAccountNumber": "4957030000313108",
+    "cardCvv2Value": "022",
+    "cardExpiryDate": "2020-10",
+    "primaryAccountNumber": "''' + specificUser["accountNumber"] + '''",
     "retrievalReferenceNumber": "015221743720",
     "systemsTraceAuditNumber": "743720"
     }
