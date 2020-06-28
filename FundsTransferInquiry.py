@@ -1,7 +1,20 @@
 import requests
 import json
+import pymongo
+from pymongo import MongoClient
+import dns
 
-def getFundsTransferVisaCardDetails():
+def getFundsTransferVisaCardDetails(firstName, lastName):
+
+    client = pymongo.MongoClient("mongodb+srv://AdiLaptop:asdAhagYHNUOzVmk@visanariesdb-942zb.mongodb.net/VisanariesDB?retryWrites=true&w=majority")
+    db = client.main
+    users = db.user
+
+    specificUser = users.find_one({"name": {"first": firstName, "last": lastName}})
+
+    # If user does not exist - send None as response
+    if (not specificUser):
+        return None
 
     url = "https://sandbox.api.visa.com/paai/fundstransferattinq/v5/cardattributes/fundstransferinquiry"
     certificate = "cert.pem"
@@ -12,7 +25,7 @@ def getFundsTransferVisaCardDetails():
     body = {}
     payload = json.loads('''
     {
-    "primaryAccountNumber": "4957030420210512",
+    "primaryAccountNumber": "''' + specificUser["accountNumber"] + '''",
     "retrievalReferenceNumber": "330000550000",
     "systemsTraceAuditNumber": "451006"
     }
