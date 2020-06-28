@@ -58,10 +58,17 @@ def getCardValidation(firstName, lastName):
     else:
         return data
 
-@app.route("/payMerchant", methods = ["GET", "POST"])
-def payMerchant():
-    data = getPayMerchant()
-    return data
+@app.route("/payMerchant/<string:amount>/<string:firstName>/<string:lastName>/<string:merchant>", methods = ["GET", "POST"])
+def payMerchant(amount, firstName, lastName, merchant):
+    data = getPayMerchant(amount, firstName, lastName, merchant)
+    if (data == "NO USER"):
+        return jsonify({"Error": "No such user exists in the database"}), 404
+    elif (data == "NO MERCHANT"):
+        return jsonify({"Error": "No such merchant exists in the database"}), 404
+    elif (data == "INSUFFICIENT FUNDS"):
+        return jsonify({"Error": "Insufficient funds in user's account"}), 404
+    else:
+        return data
 
 if (__name__ == "__main__"):
     app.run(debug = True)

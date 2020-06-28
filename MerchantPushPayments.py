@@ -1,10 +1,40 @@
 import requests
 import json
+import pymongo
+from pymongo import MongoClient
+import dns
 import datetime
 
-def getPayMerchant():
+def getPayMerchant(amount, firstName, lastName, merchant):
 
     date = datetime.datetime.now().strftime("%Y-%m-%dT%H:%M:%S")
+
+    client = pymongo.MongoClient("mongodb+srv://AdiLaptop:asdAhagYHNUOzVmk@visanariesdb-942zb.mongodb.net/VisanariesDB?retryWrites=true&w=majority")
+    db = client.main
+    users = db.user
+    merchants = db.merchant
+
+    specificUser = users.find_one({"name": {"first": firstName, "last": lastName}})
+    specificMerchant = merchants.find_one({"name": {"organizationName": merchant}})
+
+    # If user does not exist - send string response
+    if (not specificUser):
+        return ("NO USER")
+    # If user does not exist - send string response
+    if (not specificMerchant):
+        return ("NO MERCHANT")
+
+    #coll.update_one({"_id":"102"},{"$set":{"city":"Visakhapatnam"}})
+
+    # Handle Insufficient Funds
+    if (int(amount) > specificUser["funds"]):
+        return ("INSUFFICIENT FUNDS")
+
+    # Update Accounts to Reflect Change in Funds
+    newUserAmount = specificUser["funds"] - int(amount)
+    users.update_one({"name": {"first": firstName, "last": lastName}}, {"$set": {"funds": newUserAmount}})
+    newMerchantAmount = specificMerchant["funds"] + int(amount)
+    merchants.update_one({"name": {"organizationName": merchant}}, {"$set": {"funds": newMerchantAmount}})
 
     url = "https://sandbox.api.visa.com/visadirect/mvisa/v1/merchantpushpayments"
     certificate = "cert.pem"
@@ -17,7 +47,7 @@ def getPayMerchant():
     {
     "acquirerCountryCode": "356",
     "acquiringBin": "408972",
-    "amount": "124.05",
+    "amount": "''' + amount + '''",
     "businessApplicationId": "MP",
     "cardAcceptor": {
     "address": {
@@ -32,11 +62,11 @@ def getPayMerchant():
     "type": "0",
     "referenceNumber": "REF_123456789123456789123"
     },
-    "recipientPrimaryAccountNumber": "4123640062698797",
+    "recipientPrimaryAccountNumber": "''' + specificMerchant["accountNumber"] + '''",
     "retrievalReferenceNumber": "412770451035",
     "secondaryId": "123TEST",
-    "senderAccountNumber": "4957030420210496",
-    "senderName": "Jasper",
+    "senderAccountNumber": "''' + specificUser["accountNumber"] + '''",
+    "senderName": "''' + specificUser["name"]["first"] + specificUser["name"]["last"] + '''",
     "senderReference": "",
     "systemsTraceAuditNumber": "451035",
     "transactionCurrencyCode": "356",

@@ -12,6 +12,10 @@ def getVisaCardValidation(firstName, lastName):
 
     specificUser = users.find_one({"name": {"first": firstName, "last": lastName}})
 
+    # If user does not exist - send None as response
+    if (not specificUser):
+        return None
+
     url = "https://sandbox.api.visa.com/pav/v1/cardvalidation"
     certificate = "cert.pem"
     privateKey = "privateKey.pem"
