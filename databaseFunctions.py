@@ -11,7 +11,7 @@ def createUser(firstName, lastName, username, password, email):
     db = client.main
     users = db.user
 
-    x = users.insert_one({"name": {"first": firstName, "last": lastName}, "address": {"country": "", "county": "", "state": "", "zipCode": ""}, "userType": "Cardholder", "funds": 0, "accountNumber": "", "Username": username, "Password": password, "QRCode": ""})
+    x = users.insert_one({"name": {"first": firstName, "last": lastName}, "address": {"country": "", "county": "", "state": "", "zipCode": ""}, "userType": "Cardholder", "funds": 0, "accountNumber": "", "Username": username, "Password": password, "QRCode": "", "transactionHistory": []})
 
     # If user account is not created
     if (not x):

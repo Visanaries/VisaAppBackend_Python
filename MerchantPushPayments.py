@@ -25,17 +25,20 @@ def getPayMerchant(amount, username, password, merchant):
         return ("NO MERCHANT")
 
     # Handle Insufficient Funds
-    if (int(amount) > specificUser["funds"]):
+    if (float(amount) > specificUser["funds"]):
         return ("INSUFFICIENT FUNDS")
 
     firstName = specificUser["name"]["first"]
     lastName = specificUser["name"]["last"]
 
     # Update Accounts to Reflect Change in Funds
-    newUserAmount = specificUser["funds"] - int(amount)
+    newUserAmount = specificUser["funds"] - float(amount)
     users.update_one({"name": {"first": firstName, "last": lastName}}, {"$set": {"funds": newUserAmount}})
-    newMerchantAmount = specificMerchant["funds"] + int(amount)
+    newMerchantAmount = specificMerchant["funds"] + float(amount)
     merchants.update_one({"name": {"organizationName": merchant}}, {"$set": {"funds": newMerchantAmount}})
+
+    # Update Transaction History
+    users.update_one({"name": {"first": firstName, "last": lastName}}, {"$push": {"transactionHistory": {"name": merchant, "amount": float(amount)}}})
 
     url = "https://sandbox.api.visa.com/visadirect/mvisa/v1/merchantpushpayments"
     certificate = "cert.pem"
