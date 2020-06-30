@@ -75,9 +75,9 @@ def getCardValidation(firstName, lastName):
         return data
 
 # Pay merchant
-@app.route("/payMerchant/<string:amount>/<string:firstName>/<string:lastName>/<string:merchant>", methods = ["GET", "POST"])
-def payMerchant(amount, firstName, lastName, merchant):
-    data = getPayMerchant(amount, firstName, lastName, merchant)
+@app.route("/payMerchant/<string:amount>/<string:username>/<string:password>/<string:merchant>", methods = ["GET", "POST"])
+def payMerchant(amount, username, password, merchant):
+    data = getPayMerchant(amount, username, password, merchant)
     if (data == "NO USER"):
         return jsonify({"Error": "No such user exists in the database"}), 404
     elif (data == "NO MERCHANT"):

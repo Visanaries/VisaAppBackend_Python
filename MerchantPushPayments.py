@@ -5,7 +5,7 @@ from pymongo import MongoClient
 import dns
 import datetime
 
-def getPayMerchant(amount, firstName, lastName, merchant):
+def getPayMerchant(amount, username, password, merchant):
 
     date = datetime.datetime.now().strftime("%Y-%m-%dT%H:%M:%S")
 
@@ -14,7 +14,7 @@ def getPayMerchant(amount, firstName, lastName, merchant):
     users = db.user
     merchants = db.merchant
 
-    specificUser = users.find_one({"name": {"first": firstName, "last": lastName}})
+    specificUser = users.find_one({"Username": username, "Password": password})
     specificMerchant = merchants.find_one({"name": {"organizationName": merchant}})
 
     # If user does not exist - send string response
@@ -27,6 +27,9 @@ def getPayMerchant(amount, firstName, lastName, merchant):
     # Handle Insufficient Funds
     if (int(amount) > specificUser["funds"]):
         return ("INSUFFICIENT FUNDS")
+
+    firstName = specificUser["name"]["first"]
+    lastName = specificUser["name"]["last"]
 
     # Update Accounts to Reflect Change in Funds
     newUserAmount = specificUser["funds"] - int(amount)
