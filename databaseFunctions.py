@@ -78,3 +78,24 @@ def getMenuItems(merchant):
         return None
 
     return specificMerchant["menuItems"]
+
+# Get user type (cardholder or merchant)
+def getUserType(name):
+
+    client = pymongo.MongoClient("mongodb+srv://AdiLaptop:asdAhagYHNUOzVmk@visanariesdb-942zb.mongodb.net/VisanariesDB?retryWrites=true&w=majority")
+    db = client.main
+    users = db.user
+    merchants = db.merchant
+
+    specificUser = users.find_one({"Username": name})
+    specificMerchant = merchants.find_one({"name": {"organizationName": name}})
+
+    # If cardholder exists
+    if (specificUser):
+        return "Cardholder"
+    # If merchant exists
+    elif (specificMerchant):
+        return "Merchant"
+    # If neither exist
+    else:
+        return None

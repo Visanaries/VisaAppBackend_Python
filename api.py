@@ -12,6 +12,7 @@ from databaseFunctions import verifyCredentials
 from databaseFunctions import getUserFunds
 from databaseFunctions import getUserTransactionHistory
 from databaseFunctions import getMenuItems
+from databaseFunctions import getUserType
 
 app = Flask(__name__)
 
@@ -69,6 +70,15 @@ def getItems(merchant):
         return jsonify({"Items": "Error"}), 404
     else:
         return jsonify({"Items": data}), 200
+
+# Get user type
+@app.route("/type/<string:name>", methods = ["GET"])
+def getType(name):
+    data = getUserType(name)
+    if (data):
+        return jsonify({"Type": data}), 200
+    else:
+        return jsonify({"Type": "Error"}), 404
 
 # Find merchants and their wait times
 @app.route("/merchantWaitTimes", methods = ["GET"])
