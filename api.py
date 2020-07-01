@@ -11,6 +11,7 @@ from databaseFunctions import createUser
 from databaseFunctions import verifyCredentials
 from databaseFunctions import getUserFunds
 from databaseFunctions import getUserTransactionHistory
+from databaseFunctions import getMenuItems
 
 app = Flask(__name__)
 
@@ -59,6 +60,15 @@ def getTransactionHistory(username, password):
         return jsonify({"Transactions": "Error"}), 404
     else:
         return jsonify({"Transactions": data}), 200
+
+# Get menu items
+@app.route("/menuItems/<string:merchant>", methods = ["GET"])
+def getItems(merchant):
+    data = getMenuItems(merchant)
+    if (data == None):
+        return jsonify({"Items": "Error"}), 404
+    else:
+        return jsonify({"Items": data}), 200
 
 # Find merchants and their wait times
 @app.route("/merchantWaitTimes", methods = ["GET"])

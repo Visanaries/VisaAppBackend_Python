@@ -43,7 +43,7 @@ def getUserFunds(username, password):
 
     specificUser = users.find_one({"Username": username, "Password": password})
 
-    # If credentials do not match - return None
+    # If user does not exist - return None
     if (not specificUser):
         return None
 
@@ -58,8 +58,23 @@ def getUserTransactionHistory(username, password):
 
     specificUser = users.find_one({"Username": username, "Password": password})
 
-    # If credentials do not match - return None
+    # If user does not exist - return None
     if (not specificUser):
         return None
 
     return specificUser["transactionHistory"]
+
+# Get menu items
+def getMenuItems(merchant):
+
+    client = pymongo.MongoClient("mongodb+srv://AdiLaptop:asdAhagYHNUOzVmk@visanariesdb-942zb.mongodb.net/VisanariesDB?retryWrites=true&w=majority")
+    db = client.main
+    merchants = db.merchant
+
+    specificMerchant = merchants.find_one({"name": {"organizationName": merchant}})
+
+    # If merchant does not exist - return None
+    if (not specificMerchant):
+        return None
+
+    return specificMerchant["menuItems"]
