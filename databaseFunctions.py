@@ -33,3 +33,33 @@ def verifyCredentials(username, password):
         return False
 
     return True
+
+# Get user funds
+def getUserFunds(username, password):
+
+    client = pymongo.MongoClient("mongodb+srv://AdiLaptop:asdAhagYHNUOzVmk@visanariesdb-942zb.mongodb.net/VisanariesDB?retryWrites=true&w=majority")
+    db = client.main
+    users = db.user
+
+    specificUser = users.find_one({"Username": username, "Password": password})
+
+    # If credentials do not match - return None
+    if (not specificUser):
+        return None
+
+    return str(specificUser["funds"])
+
+# Get transaction history
+def getUserTransactionHistory(username, password):
+
+    client = pymongo.MongoClient("mongodb+srv://AdiLaptop:asdAhagYHNUOzVmk@visanariesdb-942zb.mongodb.net/VisanariesDB?retryWrites=true&w=majority")
+    db = client.main
+    users = db.user
+
+    specificUser = users.find_one({"Username": username, "Password": password})
+
+    # If credentials do not match - return None
+    if (not specificUser):
+        return None
+
+    return specificUser["transactionHistory"]

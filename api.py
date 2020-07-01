@@ -9,6 +9,8 @@ from CardValidation import getVisaCardValidation
 from MerchantPushPayments import getPayMerchant
 from databaseFunctions import createUser
 from databaseFunctions import verifyCredentials
+from databaseFunctions import getUserFunds
+from databaseFunctions import getUserTransactionHistory
 
 app = Flask(__name__)
 
@@ -32,13 +34,31 @@ def postNewUserAccount(firstName, lastName, username, password, email):
     else:
         return jsonify({"Message": "Unsuccessful. unable to create new user account.", "Status": False}), 404
 
-# Checks 
+# Checks if account is valid before login
 @app.route("/verifyCredentials/<string:username>/<string:password>", methods = ["GET"])
 def getVerifyCredentials(username, password):
     if (verifyCredentials(username, password)):
         return jsonify({"Status": True}), 200
     else:
         return jsonify({"Status": False}), 200
+
+# Get funds
+@app.route("/funds/<string:username>/<string:password>", methods = ["GET"])
+def getFunds(username, password):
+    data = getUserFunds(username, password)
+    if (data == None):
+        return jsonify({"Funds": "Error"}), 404
+    else:
+        return jsonify({"Funds": data}), 200
+
+# Get transaction history
+@app.route("/transactionHistory/<string:username>/<string:password>", methods = ["GET"])
+def getTransactionHistory(username, password):
+    data = getUserTransactionHistory(username, password)
+    if (data == None):
+        return jsonify({"Transactions": "Error"}), 404
+    else:
+        return jsonify({"Transactions": data}), 200
 
 # Find merchants and their wait times
 @app.route("/merchantWaitTimes", methods = ["GET"])
