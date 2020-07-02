@@ -1,10 +1,11 @@
 import pymongo
 
+from config import *
+
 
 # Create new user account
 def create_user(firstName, lastName, username, password, email):
-    client = pymongo.MongoClient(
-        "mongodb+srv://AdiLaptop:asdAhagYHNUOzVmk@visanariesdb-942zb.mongodb.net/VisanariesDB?retryWrites=true&w=majority")
+    client = pymongo.MongoClient(mongo_url)
     db = client.main
     users = db.user
 
@@ -22,8 +23,7 @@ def create_user(firstName, lastName, username, password, email):
 
 # Verify sign in credentials
 def verify_credentials(username, password):
-    client = pymongo.MongoClient(
-        "mongodb+srv://AdiLaptop:asdAhagYHNUOzVmk@visanariesdb-942zb.mongodb.net/VisanariesDB?retryWrites=true&w=majority")
+    client = pymongo.MongoClient(mongo_url)
     db = client.main
     users = db.user
 
@@ -38,8 +38,7 @@ def verify_credentials(username, password):
 
 # Get user funds
 def get_user_funds(username, password):
-    client = pymongo.MongoClient(
-        "mongodb+srv://AdiLaptop:asdAhagYHNUOzVmk@visanariesdb-942zb.mongodb.net/VisanariesDB?retryWrites=true&w=majority")
+    client = pymongo.MongoClient(mongo_url)
     db = client.main
     users = db.user
 
@@ -54,8 +53,7 @@ def get_user_funds(username, password):
 
 # Get transaction history
 def get_user_transaction_history(username, password):
-    client = pymongo.MongoClient(
-        "mongodb+srv://AdiLaptop:asdAhagYHNUOzVmk@visanariesdb-942zb.mongodb.net/VisanariesDB?retryWrites=true&w=majority")
+    client = pymongo.MongoClient(mongo_url)
     db = client.main
     users = db.user
 
@@ -70,8 +68,7 @@ def get_user_transaction_history(username, password):
 
 # Get menu items
 def get_menu_items(merchant):
-    client = pymongo.MongoClient(
-        "mongodb+srv://AdiLaptop:asdAhagYHNUOzVmk@visanariesdb-942zb.mongodb.net/VisanariesDB?retryWrites=true&w=majority")
+    client = pymongo.MongoClient(mongo_url)
     db = client.main
     merchants = db.merchant
 
@@ -86,8 +83,7 @@ def get_menu_items(merchant):
 
 # Get user type (cardholder or merchant)
 def get_user_type(name):
-    client = pymongo.MongoClient(
-        "mongodb+srv://AdiLaptop:asdAhagYHNUOzVmk@visanariesdb-942zb.mongodb.net/VisanariesDB?retryWrites=true&w=majority")
+    client = pymongo.MongoClient(mongo_url)
     db = client.main
     users = db.user
     merchants = db.merchant

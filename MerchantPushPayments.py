@@ -4,12 +4,13 @@ import json
 import pymongo
 import requests
 
+from config import *
+
 
 def getPayMerchant(amount, username, password, merchant):
     date = datetime.datetime.now().strftime("%Y-%m-%dT%H:%M:%S")
 
-    client = pymongo.MongoClient(
-        "mongodb+srv://AdiLaptop:asdAhagYHNUOzVmk@visanariesdb-942zb.mongodb.net/VisanariesDB?retryWrites=true&w=majority")
+    client = pymongo.MongoClient(mongo_url)
     db = client.main
     users = db.user
     merchants = db.merchant
@@ -96,8 +97,7 @@ def getPayMerchant(amount, username, password, merchant):
 def getPayCardholder(amount, username, password, recipient):
     date = datetime.datetime.now().strftime("%Y-%m-%dT%H:%M:%S")
 
-    client = pymongo.MongoClient(
-        "mongodb+srv://AdiLaptop:asdAhagYHNUOzVmk@visanariesdb-942zb.mongodb.net/VisanariesDB?retryWrites=true&w=majority")
+    client = pymongo.MongoClient(mongo_url)
     db = client.main
     users = db.user
 

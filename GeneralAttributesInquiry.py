@@ -3,10 +3,11 @@ import json
 import pymongo
 import requests
 
+from config import *
+
 
 def getGeneralVisaCardDetails(firstName, lastName):
-    client = pymongo.MongoClient(
-        "mongodb+srv://AdiLaptop:asdAhagYHNUOzVmk@visanariesdb-942zb.mongodb.net/VisanariesDB?retryWrites=true&w=majority")
+    client = pymongo.MongoClient(mongo_url)
     db = client.main
     users = db.user
 
