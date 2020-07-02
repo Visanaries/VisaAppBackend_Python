@@ -17,16 +17,12 @@ def getGeneralVisaCardDetails(firstName, lastName):
     if (not specificUser):
         return None
 
-    url = "https://sandbox.api.visa.com/paai/generalattinq/v1/cardattributes/generalinquiry"
-    certificate = "cert.pem"
-    privateKey = "privateKey.pem"
+    url = base_url + "paai/generalattinq/v1/cardattributes/generalinquiry"
     headers = {"Accept": "application/json"}
-    user_id = "FJBIZAWDZAXKJ3X7B6GK21dL86tIkeBDG-Lppqraa6f07Scqg"
-    password = "DZr64qXE3vdORl3m"
     body = {}
     payload = json.loads('''
     {
-    "primaryAccountNumber": "''' + specificUser["accountNumber"] + '''"
+        "primaryAccountNumber": "''' + specificUser["accountNumber"] + '''"
     }
     ''')
     timeout = 10

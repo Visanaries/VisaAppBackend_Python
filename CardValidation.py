@@ -14,39 +14,35 @@ def getVisaCardValidation(firstName, lastName):
     specificUser = users.find_one({"name": {"first": firstName, "last": lastName}})
 
     # If user does not exist - send None as response
-    if (not specificUser):
+    if not specificUser:
         return None
 
-    url = "https://sandbox.api.visa.com/pav/v1/cardvalidation"
-    certificate = "cert.pem"
-    privateKey = "privateKey.pem"
+    url = base_url + "pav/v1/cardvalidation"
     headers = {"Accept": "application/json"}
-    user_id = "FJBIZAWDZAXKJ3X7B6GK21dL86tIkeBDG-Lppqraa6f07Scqg"
-    password = "DZr64qXE3vdORl3m"
     body = {}
     payload = json.loads('''
     {
-    "addressVerificationResults": {
-    "postalCode": "T4B 3G5",
-    "street": "2881 Main Street Sw"
-    },
-    "cardAcceptor": {
-    "address": {
-    "city": "Foster City",
-    "country": "United States",
-    "county": "CA",
-    "state": "CA",
-    "zipCode": "94404"
-    },
-    "idCode": "111111",
-    "name": "''' + specificUser["name"]["first"] + specificUser["name"]["last"] + '''",
-    "terminalId": "123"
-    },
-    "cardCvv2Value": "022",
-    "cardExpiryDate": "2020-10",
-    "primaryAccountNumber": "''' + specificUser["accountNumber"] + '''",
-    "retrievalReferenceNumber": "015221743720",
-    "systemsTraceAuditNumber": "743720"
+        "addressVerificationResults": {
+        "postalCode": "T4B 3G5",
+        "street": "2881 Main Street Sw"
+        },
+        "cardAcceptor": {
+            "address": {
+                "city": "Foster City",
+                "country": "United States",
+                "county": "CA",
+                "state": "CA",
+                "zipCode": "94404"
+            },
+        "idCode": "111111",
+        "name": "''' + specificUser["name"]["first"] + specificUser["name"]["last"] + '''",
+        "terminalId": "123"
+        },
+        "cardCvv2Value": "022",
+        "cardExpiryDate": "2020-10",
+        "primaryAccountNumber": "''' + specificUser["accountNumber"] + '''",
+        "retrievalReferenceNumber": "015221743720",
+        "systemsTraceAuditNumber": "743720"
     }
     ''')
     timeout = 10

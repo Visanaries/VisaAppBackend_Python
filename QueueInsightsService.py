@@ -3,26 +3,24 @@ import json
 
 import requests
 
+from config import *
+
 
 def getVisaWaitTimes():
     date = datetime.datetime.now().strftime("%Y-%m-%dT%H:%M:%S") + ".000"
 
-    url = "https://sandbox.api.visa.com/visaqueueinsights/v1/queueinsights"
-    certificate = "cert.pem"
-    privateKey = "privateKey.pem"
+    url = base_url + "visaqueueinsights/v1/queueinsights"
     headers = {"Accept": "application/json"}
-    user_id = "FJBIZAWDZAXKJ3X7B6GK21dL86tIkeBDG-Lppqraa6f07Scqg"
-    password = "DZr64qXE3vdORl3m"
     body = {}
     payload = json.loads('''
     {
-    "requestHeader": {
-    "messageDateTime": "''' + date + '''",
-    "requestMessageId": "6da60e1b8b024532a2e0eacb1af58581"
-    },
-    "requestData": {
-    "kind": "predict"
-    }
+        "requestHeader":{
+            "messageDateTime":"''' + date + '''",
+            "requestMessageId":"6da60e1b8b024532a2e0eacb1af58581"
+        },
+        "requestData":{
+            "kind":"predict"
+        }
     }
     ''')
     timeout = 10

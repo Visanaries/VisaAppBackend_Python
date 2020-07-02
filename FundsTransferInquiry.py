@@ -17,18 +17,14 @@ def getFundsTransferVisaCardDetails(firstName, lastName):
     if (not specificUser):
         return None
 
-    url = "https://sandbox.api.visa.com/paai/fundstransferattinq/v5/cardattributes/fundstransferinquiry"
-    certificate = "cert.pem"
-    privateKey = "privateKey.pem"
+    url = base_url + "paai/fundstransferattinq/v5/cardattributes/fundstransferinquiry"
     headers = {"Accept": "application/json"}
-    user_id = "FJBIZAWDZAXKJ3X7B6GK21dL86tIkeBDG-Lppqraa6f07Scqg"
-    password = "DZr64qXE3vdORl3m"
     body = {}
     payload = json.loads('''
     {
-    "primaryAccountNumber": "''' + specificUser["accountNumber"] + '''",
-    "retrievalReferenceNumber": "330000550000",
-    "systemsTraceAuditNumber": "451006"
+        "primaryAccountNumber": "''' + specificUser["accountNumber"] + '''",
+        "retrievalReferenceNumber": "330000550000",
+        "systemsTraceAuditNumber": "451006"
     }
     ''')
     timeout = 10
