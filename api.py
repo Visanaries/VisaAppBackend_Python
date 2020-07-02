@@ -7,6 +7,7 @@ from GeneralAttributesInquiry import getGeneralVisaCardDetails
 from FundsTransferInquiry import getFundsTransferVisaCardDetails
 from CardValidation import getVisaCardValidation
 from MerchantPushPayments import getPayMerchant
+from MerchantPushPayments import getPayCardholder
 from databaseFunctions import createUser
 from databaseFunctions import verifyCredentials
 from databaseFunctions import getUserFunds
@@ -122,6 +123,19 @@ def payMerchant(amount, username, password, merchant):
         return jsonify({"Error": "No such user exists in the database"}), 404
     elif (data == "NO MERCHANT"):
         return jsonify({"Error": "No such merchant exists in the database"}), 404
+    elif (data == "INSUFFICIENT FUNDS"):
+        return jsonify({"Error": "Insufficient funds in user's account"}), 404
+    else:
+        return data
+
+# Pay cardholder
+@app.route("/payCardholder/<string:amount>/<string:username>/<string:password>/<string:recipient>", methods = ["GET", "POST"])
+def payCardholder(amount, username, password, recipient):
+    data = getPayCardholder(amount, username, password, recipient)
+    if (data == "NO USER"):
+        return jsonify({"Error": "No such user exists in the database"}), 404
+    elif (data == "NO RECIPIENT"):
+        return jsonify({"Error": "No such recipient exists in the database"}), 404
     elif (data == "INSUFFICIENT FUNDS"):
         return jsonify({"Error": "Insufficient funds in user's account"}), 404
     else:
