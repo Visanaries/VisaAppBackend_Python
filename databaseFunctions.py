@@ -1,5 +1,6 @@
 import pymongo
 
+from cachetools import cached, LRUCache
 from config import *
 
 
@@ -37,6 +38,7 @@ def verify_credentials(username, password):
 
 
 # Get user funds
+@cached(cache=LRUCache(maxsize=1024))
 def get_user_funds(username, password):
     client = pymongo.MongoClient(mongo_url)
     db = client.main
@@ -52,6 +54,7 @@ def get_user_funds(username, password):
 
 
 # Get transaction history
+@cached(cache=LRUCache(maxsize=1024))
 def get_user_transaction_history(username, password):
     client = pymongo.MongoClient(mongo_url)
     db = client.main
@@ -67,6 +70,7 @@ def get_user_transaction_history(username, password):
 
 
 # Get menu items
+@cached(cache=LRUCache(maxsize=1024))
 def get_menu_items(merchant):
     client = pymongo.MongoClient(mongo_url)
     db = client.main
@@ -82,6 +86,7 @@ def get_menu_items(merchant):
 
 
 # Get user type (cardholder or merchant)
+@cached(cache=LRUCache(maxsize=1024))
 def get_user_type(name):
     client = pymongo.MongoClient(mongo_url)
     db = client.main
