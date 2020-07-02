@@ -1,6 +1,8 @@
-import requests
-import json
 import datetime
+import json
+
+import requests
+
 
 def getVisaWaitTimes():
     date = datetime.datetime.now().strftime("%Y-%m-%dT%H:%M:%S") + ".000"
@@ -25,13 +27,13 @@ def getVisaWaitTimes():
     ''')
     timeout = 10
 
-    response = requests.post(url, 
-                    cert = (certificate, privateKey),
-                    headers = headers,
-                    auth = (user_id, password),
-                    #data = body,
-                    json = payload,
-                    timeout = timeout)
-    
+    response = requests.post(url,
+                             cert=(certificate, privateKey),
+                             headers=headers,
+                             auth=(user_id, password),
+                             # data = body,
+                             json=payload,
+                             timeout=timeout)
+
     data = response.json()
     return data

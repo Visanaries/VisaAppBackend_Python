@@ -1,6 +1,7 @@
-import requests
-import json
 import datetime
+import json
+
+import requests
 
 date = datetime.datetime.now().strftime("%Y-%m-%dT%H:%M:%S")
 
@@ -67,13 +68,12 @@ payload = json.loads('''
 ''')
 timeout = 10
 
-r = requests.post(url, 
-                cert = (certificate, privateKey),
-                headers = headers,
-                auth = (user_id, password),
-                #data = body,
-                json = payload,
-                timeout = timeout)
+r = requests.post(url,
+                  cert=(certificate, privateKey),
+                  headers=headers,
+                  auth=(user_id, password),
+                  # data = body,
+                  json=payload,
+                  timeout=timeout)
 
 print(r.text)
-

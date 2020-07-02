@@ -1,12 +1,12 @@
-import requests
 import json
+
 import pymongo
-from pymongo import MongoClient
-import dns
+import requests
+
 
 def getFundsTransferVisaCardDetails(firstName, lastName):
-
-    client = pymongo.MongoClient("mongodb+srv://AdiLaptop:asdAhagYHNUOzVmk@visanariesdb-942zb.mongodb.net/VisanariesDB?retryWrites=true&w=majority")
+    client = pymongo.MongoClient(
+        "mongodb+srv://AdiLaptop:asdAhagYHNUOzVmk@visanariesdb-942zb.mongodb.net/VisanariesDB?retryWrites=true&w=majority")
     db = client.main
     users = db.user
 
@@ -32,13 +32,13 @@ def getFundsTransferVisaCardDetails(firstName, lastName):
     ''')
     timeout = 10
 
-    response = requests.post(url, 
-                    cert = (certificate, privateKey),
-                    headers = headers,
-                    auth = (user_id, password),
-                    #data = body,
-                    json = payload,
-                    timeout = timeout)
-    
+    response = requests.post(url,
+                             cert=(certificate, privateKey),
+                             headers=headers,
+                             auth=(user_id, password),
+                             # data = body,
+                             json=payload,
+                             timeout=timeout)
+
     data = response.json()
     return data

@@ -1,15 +1,15 @@
-import requests
-import json
-import pymongo
-from pymongo import MongoClient
-import dns
 import datetime
+import json
+
+import pymongo
+import requests
+
 
 def getPayMerchant(amount, username, password, merchant):
-
     date = datetime.datetime.now().strftime("%Y-%m-%dT%H:%M:%S")
 
-    client = pymongo.MongoClient("mongodb+srv://AdiLaptop:asdAhagYHNUOzVmk@visanariesdb-942zb.mongodb.net/VisanariesDB?retryWrites=true&w=majority")
+    client = pymongo.MongoClient(
+        "mongodb+srv://AdiLaptop:asdAhagYHNUOzVmk@visanariesdb-942zb.mongodb.net/VisanariesDB?retryWrites=true&w=majority")
     db = client.main
     users = db.user
     merchants = db.merchant
@@ -38,7 +38,8 @@ def getPayMerchant(amount, username, password, merchant):
     merchants.update_one({"name": {"organizationName": merchant}}, {"$set": {"funds": newMerchantAmount}})
 
     # Update Transaction History
-    users.update_one({"name": {"first": firstName, "last": lastName}}, {"$push": {"transactionHistory": {"name": merchant, "amount": float(amount)}}})
+    users.update_one({"name": {"first": firstName, "last": lastName}},
+                     {"$push": {"transactionHistory": {"name": merchant, "amount": float(amount)}}})
 
     url = "https://sandbox.api.visa.com/visadirect/mvisa/v1/merchantpushpayments"
     certificate = "cert.pem"
@@ -80,22 +81,23 @@ def getPayMerchant(amount, username, password, merchant):
     ''')
     timeout = 10
 
-    response = requests.post(url, 
-                    cert = (certificate, privateKey),
-                    headers = headers,
-                    auth = (user_id, password),
-                    #data = body,
-                    json = payload,
-                    timeout = timeout)
-    
+    response = requests.post(url,
+                             cert=(certificate, privateKey),
+                             headers=headers,
+                             auth=(user_id, password),
+                             # data = body,
+                             json=payload,
+                             timeout=timeout)
+
     data = response.json()
     return data
 
-def getPayCardholder(amount, username, password, recipient):
 
+def getPayCardholder(amount, username, password, recipient):
     date = datetime.datetime.now().strftime("%Y-%m-%dT%H:%M:%S")
 
-    client = pymongo.MongoClient("mongodb+srv://AdiLaptop:asdAhagYHNUOzVmk@visanariesdb-942zb.mongodb.net/VisanariesDB?retryWrites=true&w=majority")
+    client = pymongo.MongoClient(
+        "mongodb+srv://AdiLaptop:asdAhagYHNUOzVmk@visanariesdb-942zb.mongodb.net/VisanariesDB?retryWrites=true&w=majority")
     db = client.main
     users = db.user
 
@@ -123,7 +125,8 @@ def getPayCardholder(amount, username, password, recipient):
     users.update_one({"Username": recipient}, {"$set": {"funds": newRecipientAmount}})
 
     # Update Transaction History
-    users.update_one({"name": {"first": firstName, "last": lastName}}, {"$push": {"transactionHistory": {"name": recipient, "amount": float(amount)}}})
+    users.update_one({"name": {"first": firstName, "last": lastName}},
+                     {"$push": {"transactionHistory": {"name": recipient, "amount": float(amount)}}})
 
     url = "https://sandbox.api.visa.com/visadirect/mvisa/v1/merchantpushpayments"
     certificate = "cert.pem"
@@ -165,13 +168,13 @@ def getPayCardholder(amount, username, password, recipient):
     ''')
     timeout = 10
 
-    response = requests.post(url, 
-                    cert = (certificate, privateKey),
-                    headers = headers,
-                    auth = (user_id, password),
-                    #data = body,
-                    json = payload,
-                    timeout = timeout)
-    
+    response = requests.post(url,
+                             cert=(certificate, privateKey),
+                             headers=headers,
+                             auth=(user_id, password),
+                             # data = body,
+                             json=payload,
+                             timeout=timeout)
+
     data = response.json()
     return data
